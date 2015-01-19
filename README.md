@@ -7,5 +7,9 @@
 呼び出し例：
 python convert_excel_bus_data.py 室蘭市内線通過時刻表/*.xls
 
+実行環境：Python 2.7系で動作確認。
+外部モジュールとして xlrd (http://www.python-excel.org) を importしています。
 
-TODO:Excelファイルから運行曜日が判別が出来ないため出力される値は暫定となっている。
+
+TODO:
+1.Excelファイルから運行曜日が判別が出来ないため出力される値は暫定となっている。
