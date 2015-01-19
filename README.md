@@ -1,0 +1,2 @@
+# MuroranOpenData
+道南バス時刻表のExcelファイルをJSONに変換する
