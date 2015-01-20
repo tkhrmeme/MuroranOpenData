@@ -1,0 +1,33 @@
+Sub SetDayType()
+   ' 開いているワークブックに繰り返す
+    For w = 1 To Workbooks.Count
+        Workbooks(w).Activate
+        
+        ' 全てのシートに繰り返す
+        For s = 1 To ActiveWorkbook.Sheets.Count
+            ActiveWorkbook.Worksheets(s).Activate
+            
+            ' 3行目を挿入
+            Application.CutCopyMode = False
+            Range("3:3").Insert
+            
+            Dim ncol As Integer
+            ncol = 3 ' 3列目からデータが始まる
+            
+            Const wcolor = &HFFFFCC ' 平日の背景色は水色
+            
+            ' データのある列に繰り返し
+            Do While Cells(2, ncol).Value <> ""
+                ' 背景色を取得
+                crgb = Cells(3, ncol).Interior.Color
+                
+                If crgb = wcolor Then
+                    Cells(3, ncol).Value = "平日"
+                Else
+                    Cells(3, ncol).Value = "土日祝"
+                End If
+             ncol = ncol + 1
+            Loop
+        Next s
+    Next w
+End Sub
