@@ -25,3 +25,7 @@ Python 2.7系で動作確認。
 平日はシアン，土日祝はマゼンタ。
 
 Pythonから背景色を判別出来ないため，マクロを用いて元のExcelファイルに運行曜日を「セルの値」として追加する。
+
+## バス停留所データ
+
+国土数値情報　バス停留所データ <http://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-P11.html> からダウンロードしたShapefileを QGISで読み込み，室蘭周辺のデータを切り出してGeoJSON形式で出力したもの。
