@@ -23,7 +23,7 @@ import xlrd
 import csv
 import json
 
-output_fields = "stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_station,wheelchair_boarding"
+output_fields = "stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,location_type,parent_station,wheelchair_boarding,stop_url"
 
 # Excelファイルのレイアウト
 ROW_TOP = 0
@@ -130,12 +130,25 @@ def convertExcelFile(filepath):
             unknownCount = unknownCount +1
         
         # 停留所を 1行ずつ出力
-        str = "{id}_{pole},'',{name},'',{lat},{lon},'','','',0\n".format(
-            id=data[_ID], 
-            pole=data[_POLE].encode('utf-8'), 
-            name=data[_NAME].encode('utf-8'), 
+        locationType = 0
+        wheelchair = 0
+        parentStation = 0
+        stopCode = ''
+        stopUrl = ''
+        stopDesc = ''
+        
+        str = "{id}_{pole},{code},{name},{desc},{lat},{lon},{type},{parent},{wheelchair},{url}\n".format(
+            id=data[_ID],
+            pole=data[_POLE].encode('utf-8'),
+            name=data[_NAME].encode('utf-8'),
+            code=stopCode,
+            desc=stopDesc,
             lat=pos['lat'], 
-            lon=pos['lon'])
+            lon=pos['lon'],
+            type=locationType,
+            parent=parentStation,
+            wheelchair=wheelchair,
+            url=stopUrl)
         fp.write(str)
         
     fp.close()
