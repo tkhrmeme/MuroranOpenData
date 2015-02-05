@@ -69,7 +69,7 @@ def getBusstopPosition(stopname):
     ・ポール毎ではなく代表点の座標
     '''
     
-    pos = {'lat':42.348363, 'lon':141.025856}
+    pos = {'lat':42.348363, 'lon':141.025856} # 東室蘭駅を初期値にしておく
     if busStopData is None:
         return pos
     

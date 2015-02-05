@@ -79,7 +79,6 @@ timesHeader = "trip_id, arrival_time, departure_time, stop_id, stop_sequence"
 
 ## 停留所の名称から id を取得
 def findBusStop(name):
-    # TODO:辞書にして速くする
     if name in busStops:
         return busStops[name]
     return None
@@ -126,14 +125,14 @@ def convertExcelFile(filepath):
     fp_trips.close()
     fp_times.close()
 
-def outputRoute(fp, routeType, routeId, routeShortName, routeLongName):
+def outputRoute(fp, route):
     
     str = "{agency_id},{route_type},{route_id},{short_name},{long_name},{url},{text_color},{color}\n".format(
             agency_id=agencyId,
-            route_type=routeType,
-            route_id=routeId,
-            short_name=routeShortName,
-            long_name=routeLongName,
+            route_type=route['route_type'],
+            route_id=route['route_id'],
+            short_name=route['short_name'],
+            long_name=route['long_name'],
             url='',
             text_color='',
             color='' )
@@ -147,7 +146,7 @@ def	outputTrip(fp, trip):
             serviceId=trip['service_id'],
             tripId=trip['trip_id'],
             headsign=trip['headsign'],
-            shortName=trip['shortName'],
+            shortName=trip['short_name'],
             direction=trip['direction']
             )
     fp.write(str)
@@ -166,24 +165,24 @@ def outputStopTimes(fp, stopTimes):
 def convertExcelSheet(book, routeLongName, sheet_name, fp_r, fp_tr, fp_tm):
     # シートを取得
     sheet = book.sheet_by_name(sheet_name)
-
-    routeShortName = ''
     
+    route = {'short_name':'', 'long_name': routeLongName}
     # ルートID
-    routeId = sheet_name.encode('utf-8')
+    route['route_id'] = sheet_name.encode('utf-8')
     
     # セル：系統番号
     cell = sheet.cell(ROW_DATA_START, COL_KEITOU)    
     if cell.ctype == xlrd.XL_CELL_TEXT:
-        routeShortName = cell.value.encode('utf-8')
+        route['short_name'] = cell.value.encode('utf-8')
 
     #　routes.txt
-    routeType = 3
-    outputRoute(fp_r, routeType, routeId, routeShortName, routeLongName)
+    route['route_type'] = 3
 
     # 列：停留所名
     busStopList = []
-    for cell in sheet.col(COL_BUSSTOPS)[ROW_DATA_START:]:
+    viaPoints = []  
+    
+    for cell in sheet.col(COL_BUSSTOPS)[ROW_DATA_START:]:            
         if cell.ctype == xlrd.XL_CELL_TEXT:
             str = cell.value.encode('utf-8')
             stopId = findBusStop(str)
@@ -192,11 +191,30 @@ def convertExcelSheet(book, routeLongName, sheet_name, fp_r, fp_tr, fp_tm):
             else:
                 print("ERROR BusStopID")
     
+            # 停留所名の背景色が黄色は経由地点
+            if cell.xf_index is not None:
+                xf = book.xf_list[cell.xf_index]
+                if xf is not None:
+                    index = book.colour_map[xf.background.pattern_colour_index]
+                    if index is not None:
+                        viaPoints.append(str)
+    
+    # 経由停留所名を連結
+    route['long_name'] = viaPoints[0]
+    for p in viaPoints[1:]:
+        route['long_name'] += '-' +p
+        
+    # 系統番号が無い場合
+    if len(route['short_name']) < 1:
+       route['short_name'] = viaPoints[-1]
+        
+    outputRoute(fp_r, route)
+         
     ## trips.txt, stop_times.txt
     trip = {}
-    trip['shortName'] = routeShortName
-    trip['route_id'] = routeId
-    trip['headsign'] = routeLongName
+    trip['short_name'] = route['short_name']
+    trip['route_id'] = route['route_id']
+    trip['headsign'] = route['long_name']
     trip['direction'] = 0
     
     tripCount = 0
@@ -208,7 +226,7 @@ def convertExcelSheet(book, routeLongName, sheet_name, fp_r, fp_tr, fp_tm):
             break
         elif cells[ROW_HEADER].ctype == xlrd.XL_CELL_NUMBER:
             tripCount = tripCount +1
-            tripId = "{0}-{1:03d}".format(routeId, tripCount)
+            tripId = "{0}-{1:03d}".format(route['route_id'], tripCount)
             trip['trip_id'] = tripId
         
             # 運行曜日判定
