@@ -1,5 +1,5 @@
 agency_id,route_type,route_id,route_short_name,route_long_name,route_text_color,route_color,route_url
-Hokkaido_Dounan_Bus,3,1089-1,,東室蘭東口・東町ターミナル〜地球岬団地線,,,
-Hokkaido_Dounan_Bus,3,1089-2,,東室蘭東口・東町ターミナル〜地球岬団地線,,,
-Hokkaido_Dounan_Bus,3,1097-1,,東室蘭東口・東町ターミナル〜地球岬団地線,,,
-Hokkaido_Dounan_Bus,3,1097-2,,東室蘭東口・東町ターミナル〜地球岬団地線,,,
+Dounan-Bus,3,1089-1,東室蘭東口,地球岬団地〜母恋駅前〜東町ターミナル〜東室蘭東口,,,
+Dounan-Bus,3,1089-2,地球岬団地,東室蘭東口〜東町ターミナル〜母恋駅前〜地球岬団地,,,
+Dounan-Bus,3,1097-1,東室蘭東口,地球岬団地〜母恋駅前〜東町ターミナル〜東室蘭東口,,,
+Dounan-Bus,3,1097-2,地球岬団地,東室蘭東口〜東町ターミナル〜母恋駅前〜地球岬団地,,,
