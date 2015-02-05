@@ -1,0 +1,3 @@
+service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
+workday_0,1,1,1,1,1,0,0,20141001,20151231
+holiday_0,0,0,0,0,0,1,1,20141001,20151231
