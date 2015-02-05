@@ -69,7 +69,7 @@ def getBusstopPosition(stopname):
     ・ポール毎ではなく代表点の座標
     '''
     
-    pos = {'lat':0, 'lon':0}
+    pos = {'lat':42.348363, 'lon':141.025856}
     if busStopData is None:
         return pos
     
@@ -134,8 +134,8 @@ def convertExcelFile(filepath):
         wheelchair = 0
         parentStation = 0
         stopCode = ''
-        stopUrl = ''
-        stopDesc = ''
+        stopUrl = '""'
+        stopDesc = '""'
         
         str = "{id}_{pole},{code},{name},{desc},{lat},{lon},{type},{parent},{wheelchair},{url}\n".format(
             id=data[_ID],
