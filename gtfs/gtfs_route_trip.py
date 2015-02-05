@@ -71,7 +71,7 @@ fp_routes = None
 fp_trips = None
 fp_times = None
 
-agencyId = 'Hokkaido_Dounan_Bus'
+agencyId = 'Dounan-Bus'
 
 routesHeader = "agency_id,route_type,route_id,route_short_name,route_long_name,route_text_color,route_color,route_url"
 tripsHeader = "route_id, service_id, trip_id, trip_headsign, trip_short_name, direction_id"
